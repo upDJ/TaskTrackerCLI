@@ -1,6 +1,7 @@
 package models
 
 import (
+	"io"
 	"os"
 	"fmt"
 	"encoding/json"
@@ -9,6 +10,26 @@ import (
 // task manager -> list of tasks
 type TaskManager struct {
 	TaskList []Task
+}
+
+// read task from json
+func (tm *TaskManager) ReadTaskJSON() TaskManager{
+	var task_manager TaskManager
+	var tasks []Task
+
+	taskFile, err := os.Open("tasks.json")
+
+	if err != nil{
+        task_manager = TaskManager{TaskList: []Task{}}
+		return task_manager
+    } 
+	defer taskFile.Close()
+
+	taskData, _ := io.ReadAll(taskFile)
+	json.Unmarshal([]byte(taskData), &tasks)
+
+	task_manager = TaskManager{TaskList: tasks}
+	return task_manager
 }
 
 // dump task to json
@@ -30,7 +51,7 @@ func (tm *TaskManager) AddTask(taskname string) {
 	tm.TaskList = append(tm.TaskList, task)
 }
 
-// update task
+// update task status
 
 // delete, manage array size
  
