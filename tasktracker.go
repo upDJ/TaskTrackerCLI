@@ -1,42 +1,27 @@
 package main
 
 import (
-	"io"
+	"fmt"
 	"os"
-    "fmt"
-    "flag"
-    "encoding/json"
 	"tasktracker/models"
 )
 
 func main() {
-    taskFile, err := os.Open("tasks.json")
+	var tm models.TaskManager
+
+	task_manager := tm.ReadTaskJSON()
+	args := os.Args
     
+	switch args[1] {
+	case "add":
+		new_task := args[2]
+		task_manager.AddTask(new_task)
+	default:
+		fmt.Println(
+			"Usage Below \n ",
+			"add -> to create a new task",
+		)
+	}
 
-    var taskManager models.TaskManager
-    if err != nil{
-        taskManager = models.TaskManager{TaskList: make([]models.Task, 3)}
-    } else {
-        taskData, err := io.ReadAll(taskFile)
-        if err != nil {
-            fmt.Printf("Unable to read tasks.json, error: %v", err)
-            return 
-        }
-    
-        var tasks []models.Task
-        json.Unmarshal([]byte(taskData), &tasks)
-        taskManager = models.TaskManager{TaskList: tasks}
-    }
-
-    defer taskFile.Close()
-
-
-    task := flag.String("a", "", "Enter New Task Name")
-    flag.Parse()
-
-    if (*task != "") {
-        taskManager.AddTask(*task)
-    }
-
-    taskManager.DumpTasksJson()
+	task_manager.DumpTasksJson()
 }
