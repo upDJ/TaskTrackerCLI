@@ -1,10 +1,10 @@
 package models
 
 import (
+	"encoding/json"
+	"fmt"
 	"io"
 	"os"
-	"fmt"
-	"encoding/json"
 )
 
 // task manager -> list of tasks
@@ -13,16 +13,16 @@ type TaskManager struct {
 }
 
 // read task from json
-func (tm *TaskManager) ReadTaskJSON() TaskManager{
+func (tm *TaskManager) ReadTaskJSON() TaskManager {
 	var task_manager TaskManager
 	var tasks []Task
 
 	taskFile, err := os.Open("tasks.json")
 
-	if err != nil{
-        task_manager = TaskManager{TaskList: []Task{}}
+	if err != nil {
+		task_manager = TaskManager{TaskList: []Task{}}
 		return task_manager
-    } 
+	}
 	defer taskFile.Close()
 
 	taskData, _ := io.ReadAll(taskFile)
@@ -33,31 +33,45 @@ func (tm *TaskManager) ReadTaskJSON() TaskManager{
 }
 
 // dump task to json
-func (tm *TaskManager) DumpTasksJson(){
+func (tm *TaskManager) DumpTasksJson() {
 	tasksJson, _ := json.Marshal(tm.TaskList)
 	os.WriteFile("tasks.json", tasksJson, 0777)
 }
 
 // add task to the task manager
-func (tm *TaskManager) AddTask(taskname string) {
+func (tm *TaskManager) AddTask(task_name string) {
 	for _, task := range tm.TaskList {
-		if task.Name == taskname {
-			fmt.Printf("Task '%s' already exists. \n", taskname)
-			return 
+		if task.Name == task_name {
+			fmt.Printf("Task '%s' already exists. \n", task_name)
+			return
 		}
 	}
+	
 
-	task := Task{Name: taskname, Status: ""}
+	task := Task{ID: len(tm.TaskList) + 1, Name: task_name, Status: ""}
 	tm.TaskList = append(tm.TaskList, task)
 }
 
-// update task status
+// update task name
+func (tm *TaskManager) UpdateTaskName(task_id int, new_task_name string) {
+	for _, task := range tm.TaskList {
+		if task.Name == new_task_name {
+			fmt.Printf("Task '%s' already exists. \n", new_task_name)
+			return
+		}
+	}
 
-// delete, manage array size
- 
+	for i, task := range tm.TaskList {
+		if task.ID == task_id {
+			tm.TaskList[i].Name = new_task_name
+		}
+	}
+}
+
+// delete
+
 // mark a task as in progress or done
 // list all
 // list tasks that are done
 // list tasks that are not done
 // list tasks in progress
-
