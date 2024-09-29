@@ -68,7 +68,7 @@ func (tm *TaskManager) UpdateTaskName(task_id int, new_task_name string) {
 	}
 }
 
-// delete
+// delete task
 func (tm *TaskManager) DeleteTask(task_id int) {
 	for i, task := range tm.TaskList {
 		if task.ID == task_id {
@@ -78,7 +78,16 @@ func (tm *TaskManager) DeleteTask(task_id int) {
 	}
 }
 
-// mark a task as in progress or done
+// update task status
+func (tm *TaskManager) UpdateStatus(task_id int, status string) {
+	for i, task := range tm.TaskList {
+		if task.ID == task_id {
+			tm.TaskList[i].Status = status
+		}
+	}
+}
+
+
 // list all
 // list tasks that are done
 // list tasks that are not done

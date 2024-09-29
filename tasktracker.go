@@ -18,12 +18,20 @@ func main() {
 		new_task := args[2]
 		task_manager.AddTask(new_task)
 	case "update":
-		task_number, _ := strconv.Atoi(args[2])
+		task_id, _ := strconv.Atoi(args[2])
 		task_name := args[3]
-		task_manager.UpdateTaskName(task_number, task_name)
+		task_manager.UpdateTaskName(task_id, task_name)
 	case "delete":
-		task_number, _ := strconv.Atoi(args[2])
-		task_manager.DeleteTask(task_number)
+		task_id, _ := strconv.Atoi(args[2])
+		task_manager.DeleteTask(task_id)
+	case "mark-in-progress":
+		task_id, _ := strconv.Atoi(args[2])
+		status := "in progress"
+		task_manager.UpdateStatus(task_id, status)
+	case "mark-done":
+		task_id, _ := strconv.Atoi(args[2])
+		status := "done"
+		task_manager.UpdateStatus(task_id, status)
 	default:
 		fmt.Println(
 			"Usage Below \n ",
