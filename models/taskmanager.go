@@ -46,10 +46,10 @@ func (tm *TaskManager) AddTask(task_name string) {
 			return
 		}
 	}
-	
 
 	task := Task{ID: len(tm.TaskList) + 1, Name: task_name, Status: ""}
 	tm.TaskList = append(tm.TaskList, task)
+	fmt.Printf("Task added successfully (ID: %d)", task.ID)
 }
 
 // update task name
@@ -69,9 +69,19 @@ func (tm *TaskManager) UpdateTaskName(task_id int, new_task_name string) {
 }
 
 // delete
+func (tm *TaskManager) DeleteTask(task_id int) {
+	for i, task := range tm.TaskList {
+		if task.ID == task_id {
+			fmt.Printf("Deleting task: %v", task.Name)
+			tm.TaskList = append(tm.TaskList[:i], tm.TaskList[i+1:]...)
+		}
+	}
+}
 
 // mark a task as in progress or done
 // list all
 // list tasks that are done
 // list tasks that are not done
 // list tasks in progress
+
+//modularize the block of code that checks for duplicates
