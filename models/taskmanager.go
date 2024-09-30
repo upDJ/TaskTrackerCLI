@@ -87,10 +87,22 @@ func (tm *TaskManager) UpdateStatus(task_id int, status string) {
 	}
 }
 
+// list all tasks
+func (tm *TaskManager) ListTasks(status string) {
+	fmt.Println("Tasks in Database")
+	fmt.Println("-------------------")
 
-// list all
-// list tasks that are done
-// list tasks that are not done
-// list tasks in progress
+	if status == "" {
+		for i, task := range tm.TaskList {
+			fmt.Printf("%d.%s\n", i+1, task.Name)
+		}
+	} else {
+		for i, task := range tm.TaskList {
+			if task.Status == status {
+				fmt.Printf("%d.%s\n", i+1, task.Name)
+			}
+		}
+	}
+}
 
-//modularize the block of code that checks for duplicates
+// modularize the block of code that checks for duplicates

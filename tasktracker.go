@@ -32,6 +32,9 @@ func main() {
 		task_id, _ := strconv.Atoi(args[2])
 		status := "done"
 		task_manager.UpdateStatus(task_id, status)
+	case "list":
+		status := args[2]
+		task_manager.ListTasks(status)
 	default:
 		fmt.Println(
 			"Usage Below \n ",
