@@ -33,7 +33,10 @@ func main() {
 		status := "done"
 		task_manager.UpdateStatus(task_id, status)
 	case "list":
-		status := args[2]
+		status := ""
+		if len(args) > 2{
+			status = args[2]
+		}
 		task_manager.ListTasks(status)
 	default:
 		fmt.Println(

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 )
 
 // task manager -> list of tasks
@@ -47,7 +48,7 @@ func (tm *TaskManager) AddTask(task_name string) {
 		}
 	}
 
-	task := Task{ID: len(tm.TaskList) + 1, Name: task_name, Status: ""}
+	task := Task{ID: len(tm.TaskList) + 1, Name: task_name, Status: "", CreatedAt: time.Now(), UpdatedAt: time.Now()}
 	tm.TaskList = append(tm.TaskList, task)
 	fmt.Printf("Task added successfully (ID: %d)", task.ID)
 }
@@ -64,6 +65,7 @@ func (tm *TaskManager) UpdateTaskName(task_id int, new_task_name string) {
 	for i, task := range tm.TaskList {
 		if task.ID == task_id {
 			tm.TaskList[i].Name = new_task_name
+			tm.TaskList[i].UpdatedAt = time.Now()
 		}
 	}
 }
@@ -91,15 +93,16 @@ func (tm *TaskManager) UpdateStatus(task_id int, status string) {
 func (tm *TaskManager) ListTasks(status string) {
 	fmt.Println("Tasks in Database")
 	fmt.Println("-------------------")
+	fmt.Println("Index\tName\t\tStatus\t\tCreated At\t\tUpdated At")
 
 	if status == "" {
 		for i, task := range tm.TaskList {
-			fmt.Printf("%d.%s\n", i+1, task.Name)
+			fmt.Printf("%d.\t%s\t\t%s\t\t%s\t%s\n", i+1, task.Name, task.Status, task.CreatedAt.Format("2006-01-02T15:04:05"), task.UpdatedAt.Format("2006-01-02T15:04:05"))
 		}
 	} else {
 		for i, task := range tm.TaskList {
 			if task.Status == status {
-				fmt.Printf("%d.%s\n", i+1, task.Name)
+				fmt.Printf("%d.\t%s\t\t%s\t\t%s\t%s\n", i+1, task.Name, task.Status, task.CreatedAt.Format("2006-01-02T15:04:05"), task.UpdatedAt.Format("2006-01-02T15:04:05"))
 			}
 		}
 	}
