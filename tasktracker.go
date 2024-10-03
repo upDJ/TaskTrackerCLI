@@ -26,7 +26,7 @@ func main() {
 		task_manager.DeleteTask(task_id)
 	case "mark-in-progress":
 		task_id, _ := strconv.Atoi(args[2])
-		status := "in progress"
+		status := "in-progress"
 		task_manager.UpdateStatus(task_id, status)
 	case "mark-done":
 		task_id, _ := strconv.Atoi(args[2])
