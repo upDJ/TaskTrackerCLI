@@ -107,5 +107,3 @@ func (tm *TaskManager) ListTasks(status string) {
 		}
 	}
 }
-
-// modularize the block of code that checks for duplicates

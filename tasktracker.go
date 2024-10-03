@@ -34,7 +34,7 @@ func main() {
 		task_manager.UpdateStatus(task_id, status)
 	case "list":
 		status := ""
-		if len(args) > 2{
+		if len(args) > 2 {
 			status = args[2]
 		}
 		task_manager.ListTasks(status)
