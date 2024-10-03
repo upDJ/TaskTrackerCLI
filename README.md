@@ -23,3 +23,4 @@ List Completed Tasks: ```./tasktracker list done```
 List Tasks In Progress: ```./tasktracker list in-progress```
 
 ### Tests
+Unit Tests for Task Manager```go test ./models```
